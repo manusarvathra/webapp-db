@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: manuwebapp
+  name: manuwebapp
+  namespace: manu-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: manuwebapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: manuwebapp
+    spec:
+      containers:
+      - image: wordpress
+        name: wordpress
+        ports:
+        - containerPort: 80
+        envFrom: 
+        - configMapRef:
+            name: manuweb-config
+        env:
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: manudb-sec
+              key: db_pass
+        resources: {}
+status: {}
