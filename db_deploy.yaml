@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: manudb
+  name: manudb
+  namespace: manu-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: manudb
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: manudb
+    spec:
+      volumes: # to create vol
+      - name: manudbvol
+        hostPath: # pod takes space from minion node
+         path: /data/manudb
+         type: DirectoryOrCreate
+      containers:
+      - image: mysql:5.7
+        name: mysql
+        ports:
+        - containerPort: 3306
+        envFrom: # to call env var from configMap
+        - configMapRef:
+            name: manudb-config # name from db_config.yml file
+        env: # calling other env with secret
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: manudb-sec
+              key: db_pass
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: manudb-sec
+              key: root_pass
+        resources: {}
+        volumeMounts: # to mount the vol created above
+        - name: manudbvol
+          mountPath: /var/lib/mysql/
+status: {}
