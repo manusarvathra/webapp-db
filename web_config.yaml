@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  WORDPRESS_DB_USER: manuuser
+  WORDPRESS_DB_HOST: manudblb  # name of db service 
+  WORDPRESS_DB_NAME: manudb 
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: manuweb-config
+  namespace: manu-project
