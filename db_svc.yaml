@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: manudblb
+  name: manudblb
+  namespace: manu-ns
+spec:
+  ports:
+  - name: 3306-3306
+    port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector: # this will create endpoint by using label of pods 
+    app: manudb
+  type: ClusterIP
+status:
+  loadBalancer: {}
