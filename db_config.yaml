@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  MYSQL_DATABASE: manudb
+  MYSQL_USER: manuuser
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: manudb-config
+  namespace: manu-ns
